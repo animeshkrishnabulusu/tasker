@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../environments/environment';
 
 export interface Task {
@@ -12,7 +12,19 @@ export class TaskService {
     private http = inject(HttpClient);
     private baseUrl = environment.apiBaseUrl;
 
-    getTasks() {
-        return this.http.get<Task[]>(`${this.baseUrl}/tasks`);
+    private _tasks = signal<Task[]>([]);
+    readonly tasks = this._tasks.asReadonly();
+
+    load() {
+        this.http.get<Task[]>(`${this.baseUrl}/tasks`)
+        .subscribe(t => this._tasks.set(t));
+    }
+
+    add(title: string) {
+        this.http
+        .post<Task>(`${this.baseUrl}/tasks`, {title})
+        .subscribe(task => {
+            this._tasks.update(t => [...t, task]);
+        });
     }
 }

@@ -1,12 +1,12 @@
-import {Component, inject, signal} from '@angular/core';
-import { TaskService, Task } from './task.service';
+import {Component, Input} from '@angular/core';
+import { Task } from './task.service';
 
 @Component({
     selector: 'task-list',
     standalone: true,
     template: `
         <ul>
-            @for (task of tasks(); track task) {
+            @for (task of tasks; track tasks) {
                 <li>{{ task.title }}</li>
             } @empty {
                 <li>No items found.</li>
@@ -16,10 +16,6 @@ import { TaskService, Task } from './task.service';
 })
 
 export class TaskList {
-    private taskService = inject(TaskService);
-    tasks = signal<Task[]>([]);
-
-    ngOnInit() {
-        this.taskService.getTasks().subscribe(t => this.tasks.set(t));
-    }
+    @Input({required: true})
+    tasks!: Task[]
 }
