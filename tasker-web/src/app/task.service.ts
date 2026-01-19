@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { environment } from '../environments/environment';
 
 export interface Task {
@@ -14,6 +14,7 @@ export class TaskService {
 
     private _tasks = signal<Task[]>([]);
     readonly tasks = this._tasks.asReadonly();
+    readonly taskCount = computed(() => this.tasks().length);
 
     load() {
         this.http.get<Task[]>(`${this.baseUrl}/tasks`)

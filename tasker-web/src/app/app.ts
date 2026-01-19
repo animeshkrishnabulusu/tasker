@@ -8,6 +8,15 @@ import { TaskService } from './task.service';
   imports: [TaskList],
   template: `
     <h1>Tasker</h1>
+    <h2>My Tasks    <span>
+      @if (count()) {
+        - {{count()}}
+      }
+      @else {
+        No tasks
+      }
+    </span>
+</h2>
     <button (click)="add()">Add task</button>
     <task-list [tasks]="tasks()" />
   `
@@ -15,6 +24,7 @@ import { TaskService } from './task.service';
 export class App {
   private taskService = inject(TaskService);
   tasks = this.taskService.tasks;
+  readonly count = this.taskService.taskCount;
 
   constructor() {
     effect(() => {
@@ -22,6 +32,10 @@ export class App {
     });
   }
   add() {
-    this.taskService.add('New Task' + Date.now());
+    this.taskService.add('New Task' + this.titleHelper());
+  }
+
+  titleHelper() {
+    return ` ${Date.now()}`
   }
 }
