@@ -37,7 +37,7 @@ export class TaskAddComponent {
     submit() {
         if (this.form.invalid || this.taskService.adding()) return;
 
-        this.addTask.emit(this.title.value);
+        this.addTask.emit(this.title.value.trim());
 
         this.form.reset({ title: '' });
     }
