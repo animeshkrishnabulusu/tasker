@@ -5,7 +5,7 @@ import { Task } from './task.service';
     selector: 'task-list',
     standalone: true,
     template: `
-        <ul>
+        <ul style="padding:0">
             @for (task of tasks; track tasks) {
                 <li>{{ task.title }}</li>
             } @empty {
@@ -15,7 +15,7 @@ import { Task } from './task.service';
     `
 })
 
-export class TaskList {
+export class TaskListComponent {
     @Input({required: true})
     tasks!: Task[]
 }

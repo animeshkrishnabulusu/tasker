@@ -1,24 +1,20 @@
 import { Component, effect, inject, signal } from '@angular/core';
-import { TaskList } from './task-list';
+import { TaskListComponent } from './task-list';
 import { TaskService } from './task.service';
+import { TaskAddComponent } from './task-add';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [TaskList],
+  imports: [TaskAddComponent, TaskListComponent],
   template: `
-    <h1>Tasker</h1>
-    <h2>My Tasks    <span>
-      @if (count()) {
-        - {{count()}}
-      }
-      @else {
-        No tasks
-      }
-    </span>
-</h2>
-    <button (click)="add()">Add task</button>
+    <h1 style="border-bottom: 3px solid dodgerblue; margin: 0;">Tasker</h1>
+    <h2 style="border-bottom: 1px solid #ccc; margin: 0;">My Tasks</h2>
+    <task-add (addTask)="add($event)" />
     <task-list [tasks]="tasks()" />
+
+    <div style="font-size: 0.8rem;">
+      @if (count()) { {{count()}} tasks left } @else { No work, no song! }</div>
   `
 })
 export class App {
@@ -31,11 +27,7 @@ export class App {
       this.taskService.load();
     });
   }
-  add() {
-    this.taskService.add('New Task' + this.titleHelper());
-  }
-
-  titleHelper() {
-    return ` ${Date.now()}`
+  add(title: string) {
+    this.taskService.add(title);
   }
 }
