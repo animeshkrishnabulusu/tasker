@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "firefox",
+      "request": "launch",
+      "name": "Debug Angular (Firefox)",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}/tasker-web",
+      "reAttach": true,
+      "pathMappings": [
+        {
+          "url": "webpack:///",
+          "path": "${workspaceFolder}/tasker-web"
+        }
+      ]
+    }
+  ]
+}

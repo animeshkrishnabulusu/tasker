@@ -1,0 +1,36 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "run_api",
+      "type": "shell",
+      "command": "dotnet run",
+      "options": {
+        "cwd": "${workspaceFolder}/Tasker.API"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "run_ui",
+      "type": "shell",
+      "command": "npm start",
+      "options": {
+        "cwd": "${workspaceFolder}/tasker-web"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "run_app",
+      "dependsOn": [
+        "run_api",
+        "run_ui"
+      ],
+      "dependsOrder": "parallel",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}
